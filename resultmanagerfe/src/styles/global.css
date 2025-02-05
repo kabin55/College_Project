@@ -1,0 +1,29 @@
+.btnPrimary{
+    padding: 10px 2opx;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    
+}
+
+.btnPrimary:hover{
+    background-color: #0d2c4e;
+}
+
+.authContainer{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-width: 300px;
+    margin: auto;
+    gap: 10px;
+}
+
+input{
+    padding: 10px;
+    width: 100%;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
