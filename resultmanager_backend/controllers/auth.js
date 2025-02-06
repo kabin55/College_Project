@@ -27,13 +27,30 @@ export async function signUp(req, res) {
 }
 
 export async function login(req, res) {
-  const { email, password } = req.body;
-  if (!email || !password) res.send("No Email or Password provided");
+  try {
+    const { email, password } = req.body;
+    if (!email || !password)
+      return res
+        .status(409)
+        .json({ success: false, message: "No Email or Password provided" });
 
-  const user = await User.findOne({ email: { $eq: email } });
-  if (!user) res.send(`Couldn't find user with provided email.`);
-  const passwordMatched = await bcrypt.compare(password, user.password);
+    const user = await User.findOne({ email: { $eq: email } });
+    if (!user)
+      return res.status(409).json({
+        success: false,
+        message: `Couldn't find user with provided email.`,
+      });
+    const passwordMatched = await bcrypt.compare(password, user.password);
 
-  if (!passwordMatched) res.send(`Password didn't match`);
-  res.json({ success: true });
+    if (!passwordMatched)
+      return res
+        .status(409)
+        .json({ success: false, message: `Password didn't match` });
+    return res
+      .status(200)
+      .json({ success: true, message: "logined successfully" });
+  } catch (err) {
+    console.log(err);
+    return res.status(500).json({ success: false, message: "Server error" });
+  }
 }
